@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import { LanguageProvider } from './context/LanguageContext'
 import './globals.css'
 
 const inter = Inter({
@@ -43,7 +44,9 @@ export default function RootLayout({
         {/* Preload hero image */}
         <link rel="preload" as="image" href="/assets/Sala.png" />
       </head>
-      <body className="lang--es">{children}</body>
+      <body className="lang--es">
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   )
 }

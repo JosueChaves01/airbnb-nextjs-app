@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 export function StickyBooking() {
   const [isVisible, setIsVisible] = useState(false);
+  const { lang } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => {
@@ -21,7 +23,9 @@ export function StickyBooking() {
     >
       <div className="sticky-booking__content">
         <div className="sticky-booking__meta">
-          <span className="sticky-booking__title">Romántico con tina</span>
+          <span className="sticky-booking__title">
+            {lang === 'es' ? 'Romántico con tina' : 'Romantic with bathtub'}
+          </span>
           <span className="sticky-booking__rating">★ 4.94</span>
         </div>
         <a
@@ -30,7 +34,7 @@ export function StickyBooking() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Reservar
+          {lang === 'es' ? 'Reservar' : 'Book now'}
         </a>
       </div>
     </div>

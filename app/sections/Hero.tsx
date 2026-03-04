@@ -1,8 +1,13 @@
+'use client';
+
 import heroData from '@/app/lib/data/hero.json';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 export function Hero() {
+  const { lang, t } = useLanguage();
+
   return (
-    <section className="hero hero--new" id="inicio" aria-label="Sección principal">
+    <section className="hero hero--new" id="inicio" aria-label={lang === 'es' ? 'Sección principal' : 'Main section'}>
       <div className="hero__container">
 
         {/* ── Left Side: Content ── */}
@@ -12,30 +17,30 @@ export function Hero() {
               <span className="hero__logo-icon"><i className="fas fa-home"></i></span>
               <div>
                 <p className="hero__logo-text">{heroData.brand.name}</p>
-                <p className="hero__slogan">{heroData.brand.slogan.es}</p>
+                <p className="hero__slogan">{t(heroData.brand.slogan)}</p>
               </div>
             </div>
           </header>
 
           <main className="hero__main">
             <h1 className="hero__title hero-animate" data-delay="1">
-              <span>{heroData.title.prefix.es}</span>
+              <span>{t(heroData.title.prefix)}</span>
               <span className="hero__title--accent">{heroData.title.accent}</span>
               <br />
-              <span>{heroData.title.suffix.es}</span>
+              <span>{t(heroData.title.suffix)}</span>
             </h1>
 
             <div className="hero__divider hero-animate" data-delay="2"></div>
 
             <p className="hero__subtitle hero-animate" data-delay="3">
-              {heroData.subtitle.es}
+              {t(heroData.subtitle)}
             </p>
 
             <ul className="hero__features hero-animate" data-delay="4">
-              {heroData.features.map((feat: { es: string }, idx: number) => (
+              {heroData.features.map((feat: { es: string; en: string }, idx: number) => (
                 <li key={idx}>
                   <i className="fas fa-check"></i>{' '}
-                  <span>{feat.es}</span>
+                  <span>{t(feat)}</span>
                 </li>
               ))}
             </ul>
@@ -47,7 +52,7 @@ export function Hero() {
               className="hero__cta hero-animate"
               data-delay="5"
             >
-              {heroData.cta.text.es}
+              {t(heroData.cta.text)}
             </a>
           </main>
 
@@ -81,7 +86,7 @@ export function Hero() {
                     <circle cx="12" cy="10" r="3"></circle>
                   </svg>
                 </span>
-                <span>{typeof heroData.contactGrid[2].label === 'string' ? heroData.contactGrid[2].label : (heroData.contactGrid[2].label as {es:string}).es}</span>
+                <span>{typeof heroData.contactGrid[2].label === 'string' ? heroData.contactGrid[2].label : t(heroData.contactGrid[2].label as {es:string; en:string})}</span>
               </a>
             </div>
           </footer>

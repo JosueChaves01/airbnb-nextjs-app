@@ -1,4 +1,7 @@
+'use client';
+
 import reviewsData from '@/app/lib/data/reviews.json';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 interface ReviewCategory {
   name: { es: string; en: string };
@@ -16,6 +19,7 @@ interface ReviewCard {
 }
 
 export function Reviews() {
+  const { lang, t } = useLanguage();
   const { overall, categories, featured, airbnbUrl } = reviewsData;
   const cats: ReviewCategory[] = categories as ReviewCategory[];
   const reviews: ReviewCard[] = featured as ReviewCard[];
@@ -24,16 +28,17 @@ export function Reviews() {
     <section className="reviews" id="resenas" aria-labelledby="reviews-title">
       <div className="container">
         <h2 className="section-title fade-in" id="reviews-title">
-          Lo que dicen nuestros huéspedes
+          {lang === 'es' ? 'Lo que dicen nuestros huéspedes' : 'What our guests say'}
         </h2>
         <p className="section-subtitle fade-in">
-          Destacan la limpieza, la ubicación y la atención de Johnny.
+          {lang === 'es'
+            ? 'Destacan la limpieza, la ubicación y la atención de Johnny.'
+            : 'They highlight the cleanliness, location, and Johnny\'s hospitality.'}
         </p>
 
         {/* Overall rating block */}
         <div className="reviews__overall fade-in" id="reviewsOverall">
           <div className="reviews__score">
-            {/* animate-count picks up data-target & data-decimals for the JS counter animation */}
             <span
               className="reviews__score-number animate-count"
               data-target={overall.score}
@@ -43,17 +48,21 @@ export function Reviews() {
             </span>
             <div
               className="reviews__score-stars animate-stars"
-              aria-label="5 estrellas"
+              aria-label={lang === 'es' ? '5 estrellas' : '5 stars'}
             >
               ★★★★★
             </div>
-            <p className="reviews__score-label">de {overall.totalReviews} reseñas</p>
-            <p className="reviews__verified">Reseñas verificadas a través de Airbnb</p>
+            <p className="reviews__score-label">
+              {lang === 'es' ? `de ${overall.totalReviews} reseñas` : `from ${overall.totalReviews} reviews`}
+            </p>
+            <p className="reviews__verified">
+              {lang === 'es' ? 'Reseñas verificadas a través de Airbnb' : 'Verified reviews through Airbnb'}
+            </p>
           </div>
           <div className="reviews__categories">
             {cats.map((cat, idx) => (
               <div key={idx} className="reviews__category">
-                <span className="reviews__cat-label">{cat.name.es}</span>
+                <span className="reviews__cat-label">{t(cat.name)}</span>
                 <div className="reviews__bar">
                   <div className="reviews__bar-fill" style={{ width: cat.barWidth }}></div>
                 </div>
@@ -77,18 +86,20 @@ export function Reviews() {
                 <div className="review-card__avatar" aria-hidden="true">{review.avatar}</div>
                 <div className="review-card__meta">
                   <strong className="review-card__name">{review.author}</strong>
-                  <span className="review-card__location">{review.location.es}</span>
-                  <span className="review-card__badge">Reserva verificada en Airbnb</span>
+                  <span className="review-card__location">{t(review.location)}</span>
+                  <span className="review-card__badge">
+                    {lang === 'es' ? 'Reserva verificada en Airbnb' : 'Verified Airbnb booking'}
+                  </span>
                 </div>
-                <div className="review-card__date">{review.date.es}</div>
+                <div className="review-card__date">{t(review.date)}</div>
               </div>
               <div
                 className="review-card__stars"
-                aria-label={`${review.rating} estrellas`}
+                aria-label={`${review.rating} ${lang === 'es' ? 'estrellas' : 'stars'}`}
               >
                 {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
               </div>
-              <p className="review-card__text">{review.text.es}</p>
+              <p className="review-card__text">{t(review.text)}</p>
             </article>
           ))}
         </div>
@@ -100,7 +111,7 @@ export function Reviews() {
             rel="noopener noreferrer"
             className="btn btn--secondary"
           >
-            Ver todas las reseñas en Airbnb
+            {lang === 'es' ? 'Ver todas las reseñas en Airbnb' : 'See all reviews on Airbnb'}
           </a>
         </div>
 

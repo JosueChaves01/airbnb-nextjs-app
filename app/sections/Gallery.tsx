@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import galleryData from '@/app/lib/data/gallery.json';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 interface GalleryImage {
   src: string;
@@ -13,6 +14,7 @@ interface GalleryImage {
 export function Gallery() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { lang, t } = useLanguage();
 
   const images: GalleryImage[] = galleryData.images;
 
@@ -47,7 +49,7 @@ export function Gallery() {
     <section className="gallery" id="galeria" aria-labelledby="gallery-title">
       <div className="container">
         <h2 className="section-title fade-in" id="gallery-title">
-          {galleryData.title.es}
+          {t(galleryData.title)}
         </h2>
 
         <div className="gallery__actions fade-in">
@@ -56,7 +58,7 @@ export function Gallery() {
             type="button"
             onClick={() => openLightbox(0)}
           >
-            Mostrar todas las fotos
+            {lang === 'es' ? 'Mostrar todas las fotos' : 'Show all photos'}
           </button>
         </div>
 
@@ -72,28 +74,28 @@ export function Gallery() {
               ].filter(Boolean).join(' ')}
               tabIndex={0}
               role="button"
-              aria-label={`Abrir foto: ${img.alt}`}
+              aria-label={lang === 'es' ? `Abrir foto: ${img.alt}` : `Open photo: ${img.alt}`}
               onClick={() => openLightbox(idx)}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(idx)}
             >
               <img src={img.src} alt={img.alt} loading="lazy" />
-              <figcaption>{img.caption.es}</figcaption>
+              <figcaption>{t(img.caption)}</figcaption>
             </figure>
           ))}
         </div>
 
-        {/* Inline Lightbox — matches original .lightbox.active pattern */}
+        {/* Inline Lightbox */}
         <div
           className={`lightbox${lightboxOpen ? ' active' : ''}`}
           id="galleryLightbox"
           role="dialog"
           aria-modal="true"
-          aria-label="Imagen ampliada"
+          aria-label={lang === 'es' ? 'Imagen ampliada' : 'Enlarged image'}
         >
           <button
             className="lightbox__close"
             type="button"
-            aria-label="Cerrar"
+            aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
             onClick={closeLightbox}
           >
             <i className="fas fa-times"></i>
@@ -101,19 +103,19 @@ export function Gallery() {
           <button
             className="lightbox__nav lightbox__prev"
             type="button"
-            aria-label="Foto anterior"
+            aria-label={lang === 'es' ? 'Foto anterior' : 'Previous photo'}
             onClick={handlePrev}
           >
             ‹
           </button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="lightbox__img" src={current?.src} alt={current?.alt ?? ''} />
-          <div className="lightbox__caption">{current?.caption?.es}</div>
+          <div className="lightbox__caption">{current ? t(current.caption) : ''}</div>
           <div className="lightbox__counter">{activeIndex + 1} / {images.length}</div>
           <button
             className="lightbox__nav lightbox__next"
             type="button"
-            aria-label="Siguiente foto"
+            aria-label={lang === 'es' ? 'Siguiente foto' : 'Next photo'}
             onClick={handleNext}
           >
             ›

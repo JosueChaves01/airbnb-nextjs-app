@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import amenitiesData from '@/app/lib/data/amenities.json';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 interface AmenityItem {
   icon: string;
@@ -15,6 +16,7 @@ interface AmenityGroup {
 
 export function Amenities() {
   const [showExtra, setShowExtra] = useState(false);
+  const { lang, t } = useLanguage();
   const groups: AmenityGroup[] = amenitiesData.groups;
   const extra: AmenityItem[] = amenitiesData.extra;
 
@@ -22,20 +24,20 @@ export function Amenities() {
     <section className="amenities" id="amenidades" aria-labelledby="amenities-title">
       <div className="container">
         <h2 className="section-title fade-in" id="amenities-title">
-          Todo lo que necesitas
+          {lang === 'es' ? 'Todo lo que necesitas' : 'Everything you need'}
         </h2>
 
-        <div className="amenities__groups fade-in" aria-label="Amenidades clave">
+        <div className="amenities__groups fade-in" aria-label={lang === 'es' ? 'Amenidades clave' : 'Key amenities'}>
           {groups.map((group, gIdx) => (
             <article key={gIdx} className="amenities-group">
-              <h3 className="amenities-group__title">{group.title.es}</h3>
+              <h3 className="amenities-group__title">{t(group.title)}</h3>
               <div className="amenities__grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
                 {group.items.map((item, iIdx) => (
                   <div key={iIdx} className="amenity-item">
                     <span className="amenity-item__icon">
                       <i className={`fas fa-${item.icon}`}></i>
                     </span>
-                    <span className="amenity-item__label">{item.label.es}</span>
+                    <span className="amenity-item__label">{t(item.label)}</span>
                   </div>
                 ))}
               </div>
@@ -55,7 +57,7 @@ export function Amenities() {
                 <span className="amenity-item__icon">
                   <i className={`fas fa-${item.icon}`}></i>
                 </span>
-                <span className="amenity-item__label">{item.label.es}</span>
+                <span className="amenity-item__label">{t(item.label)}</span>
               </div>
             ))}
           </div>
@@ -70,7 +72,10 @@ export function Amenities() {
             aria-controls="amenities-extra"
             onClick={() => setShowExtra(!showExtra)}
           >
-            {showExtra ? 'Ver menos' : 'Ver todas las amenidades'}
+            {showExtra
+              ? (lang === 'es' ? 'Ver menos' : 'Show less')
+              : (lang === 'es' ? 'Ver todas las amenidades' : 'Show all amenities')
+            }
           </button>
         </div>
       </div>

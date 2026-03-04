@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 interface DiscoverImage {
   src: string;
@@ -10,8 +11,8 @@ interface DiscoverImage {
 
 interface DiscoverItem {
   number: string;
-  title: string;
-  description: string;
+  title: { es: string; en: string };
+  description: { es: string; en: string };
   images: DiscoverImage[];
   placeholders: number;
 }
@@ -19,9 +20,11 @@ interface DiscoverItem {
 const items: DiscoverItem[] = [
   {
     number: '01',
-    title: 'Gastronomía Local',
-    description:
-      'Sabores auténticos a 5 minutos caminando. Disfruta de la cocina tradicional costarricense con ingredientes frescos de la zona.',
+    title: { es: 'Gastronomía Local', en: 'Local Gastronomy' },
+    description: {
+      es: 'Sabores auténticos a 5 minutos caminando. Disfruta de la cocina tradicional costarricense con ingredientes frescos de la zona.',
+      en: 'Authentic flavors just 5 minutes away on foot. Enjoy traditional Costa Rican cuisine with fresh local ingredients.',
+    },
     images: [
       {
         src: '/assets/Restaurante1.png',
@@ -38,9 +41,11 @@ const items: DiscoverItem[] = [
   },
   {
     number: '02',
-    title: 'Campo de Girasoles',
-    description:
-      'A solo 1.5 km de distancia, un paisaje dorado que enamora. Perfecto para fotografías inolvidables y momentos románticos.',
+    title: { es: 'Campo de Girasoles', en: 'Sunflower Fields' },
+    description: {
+      es: 'A solo 1.5 km de distancia, un paisaje dorado que enamora. Perfecto para fotografías inolvidables y momentos románticos.',
+      en: 'Just 1.5 km away, a golden landscape that captivates. Perfect for unforgettable photos and romantic moments.',
+    },
     images: [
       { src: '/assets/Girasoles.png', alt: 'Campo de girasoles 1' },
       { src: '/assets/Girasoles2.png', alt: 'Campo de girasoles 2' },
@@ -49,9 +54,11 @@ const items: DiscoverItem[] = [
   },
   {
     number: '03',
-    title: 'Naturaleza de San Carlos',
-    description:
-      'A 20 minutos, descubre ríos cristalinos, volcanes y una biodiversidad única. La aventura te espera en cada rincón.',
+    title: { es: 'Naturaleza de San Carlos', en: 'Nature of San Carlos' },
+    description: {
+      es: 'A 20 minutos, descubre ríos cristalinos, volcanes y una biodiversidad única. La aventura te espera en cada rincón.',
+      en: 'Just 20 minutes away, discover crystal-clear rivers, volcanoes, and unique biodiversity. Adventure awaits around every corner.',
+    },
     images: [
       { src: '/assets/Volcan.png', alt: 'Volcán de la zona' },
       { src: '/assets/Laguna.jpg', alt: 'Laguna natural' },
@@ -63,6 +70,7 @@ const items: DiscoverItem[] = [
 export function Discover() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<DiscoverImage | null>(null);
+  const { lang, t } = useLanguage();
 
   const openLightbox = (image: DiscoverImage) => {
     setCurrentImage(image);
@@ -79,10 +87,12 @@ export function Discover() {
       <section className="discover" id="descubre" aria-labelledby="discover-title">
         <div className="discover__header">
           <h2 className="section-title fade-in" id="discover-title">
-            Descubre Pital
+            {lang === 'es' ? 'Descubre Pital' : 'Discover Pital'}
           </h2>
           <p className="discover__subtitle fade-in">
-            Explora los tesoros naturales y gastronómicos que rodean tu alojamiento
+            {lang === 'es'
+              ? 'Explora los tesoros naturales y gastronómicos que rodean tu alojamiento'
+              : 'Explore the natural and gastronomic treasures surrounding your stay'}
           </p>
         </div>
 
@@ -98,8 +108,8 @@ export function Discover() {
               </div>
 
               <div className="discover__item-content">
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <h3>{t(item.title)}</h3>
+                <p>{t(item.description)}</p>
 
                 <div className="discover__gallery">
                   {item.images.map((img, imgIdx) => (
@@ -108,7 +118,7 @@ export function Discover() {
                       className="discover__image"
                       tabIndex={0}
                       role="button"
-                      aria-label="Ver imagen ampliada"
+                      aria-label={lang === 'es' ? 'Ver imagen ampliada' : 'View enlarged image'}
                       onClick={() => openLightbox(img)}
                       onKeyDown={(e) => e.key === 'Enter' && openLightbox(img)}
                     >
@@ -132,18 +142,18 @@ export function Discover() {
         </div>
       </section>
 
-      {/* Discover Lightbox — outside section, matches original structure */}
+      {/* Discover Lightbox */}
       <div
         className={`lightbox discover-lightbox${lightboxOpen ? ' active' : ''}`}
         id="discoverLightbox"
         role="dialog"
         aria-modal="true"
-        aria-label="Imagen ampliada"
+        aria-label={lang === 'es' ? 'Imagen ampliada' : 'Enlarged image'}
       >
         <button
           className="lightbox__close discover-lightbox__close"
           type="button"
-          aria-label="Cerrar"
+          aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
           onClick={closeLightbox}
         >
           <i className="fas fa-times"></i>
@@ -164,10 +174,10 @@ export function Discover() {
             className="discover-lightbox__caption"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Ver restaurante en Instagram (enlace externo)"
+            aria-label={lang === 'es' ? 'Ver restaurante en Instagram (enlace externo)' : 'View restaurant on Instagram (external link)'}
           >
             <i className="fab fa-instagram"></i>
-            <span>Ver en Instagram</span>
+            <span>{lang === 'es' ? 'Ver en Instagram' : 'View on Instagram'}</span>
           </a>
         ) : null}
       </div>
