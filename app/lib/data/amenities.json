@@ -1,0 +1,44 @@
+{
+  "groups": [
+    {
+      "title": {
+        "es": "Confort",
+        "en": "Comfort"
+      },
+      "items": [
+        { "icon": "temperature-high", "label": { "es": "A/C", "en": "A/C" } },
+        { "icon": "bed", "label": { "es": "Cama cómoda", "en": "Comfortable bed" } },
+        { "icon": "car", "label": { "es": "Parqueo privado", "en": "Private parking" } }
+      ]
+    },
+    {
+      "title": {
+        "es": "Experiencia romántica",
+        "en": "Romantic experience"
+      },
+      "items": [
+        { "icon": "bath", "label": { "es": "Tina privada", "en": "Private bathtub" } },
+        { "icon": "wine-glass", "label": { "es": "Copas de vino", "en": "Wine glasses" } },
+        { "icon": "building", "label": { "es": "Balcón privado", "en": "Private balcony" } }
+      ]
+    },
+    {
+      "title": {
+        "es": "Trabajo & conectividad",
+        "en": "Work & connectivity"
+      },
+      "items": [
+        { "icon": "wifi", "label": { "es": "WiFi", "en": "WiFi" } },
+        { "icon": "briefcase", "label": { "es": "Zona de trabajo", "en": "Workspace" } },
+        { "icon": "lock", "label": { "es": "Check-in autónomo", "en": "Self check-in" } }
+      ]
+    }
+  ],
+  "extra": [
+    { "icon": "tv", "label": { "es": "Smart TV", "en": "Smart TV" } },
+    { "icon": "utensils", "label": { "es": "Utensilios de cocina", "en": "Kitchen utensils" } },
+    { "icon": "tshirt", "label": { "es": "Ropa de cama adicional", "en": "Extra bedding" } },
+    { "icon": "smoking-ban", "label": { "es": "Espacio libre de humo", "en": "Smoke-free space" } },
+    { "icon": "soap", "label": { "es": "Productos de limpieza", "en": "Cleaning supplies" } }
+  ]
+}

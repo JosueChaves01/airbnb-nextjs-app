@@ -1,0 +1,61 @@
+{
+  "title": {
+    "es": "¿Por qué elegir este apartamento?",
+    "en": "Why choose this apartment?"
+  },
+  "subtitle": {
+    "es": "Una experiencia simple, cómoda y pensada para desconectar",
+    "en": "A simple, comfortable stay designed to help you unwind"
+  },
+  "cards": [
+    {
+      "icon": "lock",
+      "title": {
+        "es": "Llegada autónoma",
+        "en": "Self check-in"
+      },
+      "desc": {
+        "es": "Entras cuando quieras con cerradura inteligente. Cero esperas, cero estrés.",
+        "en": "Arrive anytime with a smart lock. No waiting, no hassle."
+      }
+    },
+    {
+      "icon": "bath",
+      "title": {
+        "es": "Tina privada",
+        "en": "Private bathtub"
+      },
+      "desc": {
+        "es": "El detalle que cambia la noche: una tina para relajarte y celebrar.",
+        "en": "The detail that makes the night: a bathtub to relax and celebrate."
+      }
+    },
+    {
+      "icon": "sun",
+      "title": {
+        "es": "Cerca del campo de girasoles",
+        "en": "Near the sunflower field"
+      },
+      "desc": {
+        "es": "A 1.5 km del lugar más visitado de Pital. Ideal para fotos y paseos.",
+        "en": "1.5 km from Pital's most visited spot. Perfect for photos and walks."
+      }
+    }
+  ],
+  "host": {
+    "avatar": "J",
+    "title": {
+      "es": "Anfitrión: Johnny · Superanfitrión",
+      "en": "Host: Johnny · Superhost"
+    },
+    "subtitle": {
+      "es": "Vive en Pital y responde rápido a tus mensajes.",
+      "en": "Lives in Pital and replies quickly to your messages."
+    },
+    "cta": {
+      "es": "Escribir a Johnny",
+      "en": "Message Johnny"
+    },
+    "ctaHref": "#contacto"
+  }
+}

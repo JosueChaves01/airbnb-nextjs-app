@@ -1,0 +1,41 @@
+{
+  "host": {
+    "name": "Johnny",
+    "avatar": "J",
+    "isSuperhost": true,
+    "stats": {
+      "rating": 4.94,
+      "reviews": 48,
+      "years": 3,
+      "responseRate": "100%"
+    }
+  },
+  "coHost": {
+    "name": "Hayssell"
+  },
+  "response": {
+    "time": {
+      "es": "menos de 1 hora",
+      "en": "less than 1 hour"
+    }
+  },
+  "contact": {
+    "phone": "+506 8817 6837",
+    "whatsapp": "+506 8817 6837",
+    "email": "Johnny-vs@hotmail.com"
+  },
+  "social": {
+    "airbnb": "https://www.airbnb.co.cr/rooms/683377270994372545"
+  },
+  "location": {
+    "address": "Pital, San Carlos, Costa Rica",
+    "coordinates": {
+      "lat": 10.456498,
+      "lng": -84.277199
+    },
+    "mapUrl": "https://maps.google.com/?q=10.456498,-84.277199"
+  },
+  "form": {
+    "action": "https://formspree.io/f/xdalrwwa"
+  }
+}

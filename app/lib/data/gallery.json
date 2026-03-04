@@ -1,0 +1,44 @@
+{
+  "title": {
+    "es": "Galería de fotos",
+    "en": "Photo gallery"
+  },
+  "images": [
+    {
+      "src": "/assets/Sala.png",
+      "alt": "Habitación principal del apartamento",
+      "caption": { "es": "Habitación", "en": "Bedroom" },
+      "modifier": "wide"
+    },
+    {
+      "src": "/assets/Tina.png",
+      "alt": "Tina romántica privada",
+      "caption": { "es": "Tina romántica", "en": "Romantic bathtub" },
+      "modifier": ""
+    },
+    {
+      "src": "/assets/Sillon.png",
+      "alt": "Sala de estar cómoda",
+      "caption": { "es": "Sala de estar", "en": "Living room" },
+      "modifier": ""
+    },
+    {
+      "src": "/assets/Entrada.png",
+      "alt": "Área exterior y patio",
+      "caption": { "es": "Área exterior", "en": "Outdoor area" },
+      "modifier": ""
+    },
+    {
+      "src": "/assets/Cocina.png",
+      "alt": "Cocina equipada",
+      "caption": { "es": "Cocina", "en": "Kitchen" },
+      "modifier": ""
+    },
+    {
+      "src": "/assets/Escritorio.png",
+      "alt": "Zona de trabajo con escritorio",
+      "caption": { "es": "Zona de trabajo", "en": "Workspace" },
+      "modifier": "tall"
+    }
+  ]
+}

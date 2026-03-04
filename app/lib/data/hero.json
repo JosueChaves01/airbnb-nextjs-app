@@ -1,0 +1,82 @@
+{
+  "brand": {
+    "name": "Romance Tub",
+    "slogan": {
+      "es": "TU ESCAPADA ROMÁNTICA",
+      "en": "YOUR ROMANTIC ESCAPE"
+    }
+  },
+  "title": {
+    "prefix": {
+      "es": "Bienvenido a ",
+      "en": "Welcome to "
+    },
+    "accent": "Romance Tub",
+    "suffix": {
+      "es": "– Apartamento Privado con Baño para Parejas",
+      "en": "– Private Loft with Bathtub for Couples"
+    }
+  },
+  "subtitle": {
+    "es": "Un espacio acogedor e íntimo diseñado para el descanso y la conexión en pareja. Este loft privado es ideal para quienes buscan relajarse y disfrutar de una estancia tranquila.",
+    "en": "A cozy and intimate space designed for rest and connection as a couple. This private loft is perfect for those seeking to relax and enjoy a peaceful stay."
+  },
+  "rating": {
+    "stars": 5,
+    "score": 4.94,
+    "reviews": 48
+  },
+  "features": [
+    {
+      "es": "Espacio privado e íntimo",
+      "en": "Private & intimate space"
+    },
+    {
+      "es": "Ambiente acogedor para parejas",
+      "en": "Cozy atmosphere for couples"
+    },
+    {
+      "es": "Experiencia relajante en tina",
+      "en": "Relaxing bathtub experience"
+    },
+    {
+      "es": "Lugar cómodo y limpio",
+      "en": "Comfortable & clean place"
+    },
+    {
+      "es": "Fácil acceso a comercios y servicios",
+      "en": "Easy access to shops & services"
+    }
+  ],
+  "cta": {
+    "text": {
+      "es": "RESERVAR AHORA →",
+      "en": "BOOK NOW →"
+    },
+    "url": "https://www.airbnb.com/h/apartamento-privado-pital"
+  },
+  "contactGrid": [
+    {
+      "type": "airbnb",
+      "href": "https://www.airbnb.com/h/apartamento-privado-pital",
+      "label": "airbnb.com/h/apartamento-privado-pital"
+    },
+    {
+      "type": "phone",
+      "href": "tel:+50688176837",
+      "label": "+506 8817 6837"
+    },
+    {
+      "type": "location",
+      "href": "https://www.google.com/maps?q=10.456498,-84.277199",
+      "label": {
+        "es": "Pital, San Carlos, Costa Rica",
+        "en": "Pital, San Carlos, Costa Rica"
+      }
+    }
+  ],
+  "image": {
+    "src": "/assets/Sala.png",
+    "alt": "Sala del apartamento"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "items": [
+    {
+      "id": "gastronomia",
+      "number": "01",
+      "title": {
+        "es": "Gastronomía Local",
+        "en": "Local Gastronomy"
+      },
+      "description": {
+        "es": "Descubre los sabores auténticos de la región en restaurantes locales con ingredientes frescos y recetas tradicionales.",
+        "en": "Discover the authentic flavors of the region at local restaurants with fresh ingredients and traditional recipes."
+      },
+      "images": [
+        {
+          "src": "assets/Restaurante1.png",
+          "alt": "Restaurante local 1",
+          "menuUrl": "https://drive.google.com/file/d/1qBP-7CqPSmAretyU6H6hdlKQCa-Rumz0/view"
+        },
+        {
+          "src": "assets/Restaurante2.png",
+          "alt": "Restaurante local 2",
+          "menuUrl": "https://drive.google.com/file/d/1fGYPgTQr1CwtT2f79ydE86t7cCgZwRmH/view"
+        }
+      ],
+      "placeholders": 2
+    },
+    {
+      "id": "girasoles",
+      "number": "02",
+      "title": {
+        "es": "Campos de Girasoles",
+        "en": "Sunflower Fields"
+      },
+      "description": {
+        "es": "A solo 5 minutos del apartamento, los campos de girasoles ofrecen un espectáculo visual único y perfecto para fotografías memorables.",
+        "en": "Just 5 minutes from the apartment, the sunflower fields offer a unique visual spectacle perfect for memorable photos."
+      },
+      "images": [
+        {
+          "src": "assets/Girasoles.png",
+          "alt": "Campos de girasoles"
+        },
+        {
+          "src": "assets/Girasoles2.png",
+          "alt": "Campos de girasoles 2"
+        }
+      ],
+      "placeholders": 0
+    },
+    {
+      "id": "naturaleza",
+      "number": "03",
+      "title": {
+        "es": "Naturaleza y Volcanes",
+        "en": "Nature and Volcanoes"
+      },
+      "description": {
+        "es": "Explora los alrededores con vistas al Volcán Arenal y la Laguna de Pital. Senderos naturales y paisajes inolvidables te esperan.",
+        "en": "Explore the surroundings with views of Arenal Volcano and Pital Lagoon. Natural trails and unforgettable landscapes await."
+      },
+      "images": [
+        {
+          "src": "assets/Volcan.png",
+          "alt": "Volcán Arenal"
+        },
+        {
+          "src": "assets/Laguna.jpg",
+          "alt": "Laguna de Pital"
+        }
+      ],
+      "placeholders": 0
+    }
+  ]
+}

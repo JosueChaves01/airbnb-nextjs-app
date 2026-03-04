@@ -1,0 +1,7 @@
+/* ─── Import original site styles for exact visual parity ─── */
+/* @import must precede all other rules per CSS spec              */
+@import './original-styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

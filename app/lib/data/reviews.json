@@ -1,0 +1,108 @@
+{
+  "overall": {
+    "score": 4.94,
+    "stars": 5,
+    "totalReviews": 48
+  },
+  "categories": [
+    {
+      "name": { "es": "Limpieza", "en": "Cleanliness" },
+      "score": 4.9,
+      "barWidth": "98%"
+    },
+    {
+      "name": { "es": "Exactitud", "en": "Accuracy" },
+      "score": 4.9,
+      "barWidth": "98%"
+    },
+    {
+      "name": { "es": "Check-in", "en": "Check-in" },
+      "score": 4.9,
+      "barWidth": "98%"
+    },
+    {
+      "name": { "es": "Comunicación", "en": "Communication" },
+      "score": 5.0,
+      "barWidth": "100%"
+    },
+    {
+      "name": { "es": "Ubicación", "en": "Location" },
+      "score": 4.8,
+      "barWidth": "96%"
+    },
+    {
+      "name": { "es": "Precio", "en": "Value" },
+      "score": 4.8,
+      "barWidth": "96%"
+    }
+  ],
+  "featured": [
+    {
+      "author": "Óscar",
+      "avatar": "Ó",
+      "location": { "es": "San Antonio, CR", "en": "San Antonio, CR" },
+      "date": { "es": "Mayo 2025", "en": "May 2025" },
+      "rating": 5,
+      "text": {
+        "es": "Lugar bastante bueno. Muy céntrico y de fácil acceso. A 1.5 kms del campo de girasoles... Johnny muy comprensible. En general, muy contentos.",
+        "en": "Really nice place. Very central and easy to access. 1.5 km from the sunflower field... Johnny very understanding. Overall, very happy."
+      }
+    },
+    {
+      "author": "Mauricio",
+      "avatar": "M",
+      "location": { "es": "San José, CR", "en": "San José, CR" },
+      "date": { "es": "Mayo 2025", "en": "May 2025" },
+      "rating": 5,
+      "text": {
+        "es": "Gran lugar para hospedarse en la zona, con lo necesario para pasar una noche sumamente cómoda, con el A/C funcionando a la perfección, TV, tina...",
+        "en": "Great place to stay in the area, with everything needed for a very comfortable night, with the A/C working perfectly, TV, bathtub..."
+      }
+    },
+    {
+      "author": "Edgardo",
+      "avatar": "E",
+      "location": { "es": "2 años en Airbnb", "en": "2 years in Airbnb" },
+      "date": { "es": "Junio 2025", "en": "June 2025" },
+      "rating": 5,
+      "text": {
+        "es": "Un lugar muy limpio, hermoso, equipado. ¡Es como estar mejor que en casa!",
+        "en": "A very clean, beautiful, well-equipped place. It's like being better than home!"
+      }
+    },
+    {
+      "author": "Randy",
+      "avatar": "R",
+      "location": { "es": "Heredia, CR", "en": "Heredia, CR" },
+      "date": { "es": "Abril 2025", "en": "April 2025" },
+      "rating": 5,
+      "text": {
+        "es": "Excelente lugar, cerca del campo de girasoles y lugares de comida.",
+        "en": "Excellent place, close to the sunflower field and restaurants."
+      }
+    },
+    {
+      "author": "Cinthia",
+      "avatar": "C",
+      "location": { "es": "2 años en Airbnb", "en": "2 years in Airbnb" },
+      "date": { "es": "Junio 2024", "en": "June 2024" },
+      "rating": 5,
+      "text": {
+        "es": "Excelente ubicación, es exactamente como se describe... excelente para compartir en pareja.",
+        "en": "Excellent location, it's exactly as described... excellent for couples."
+      }
+    },
+    {
+      "author": "Elizabeth",
+      "avatar": "E",
+      "location": { "es": "Heredia, CR", "en": "Heredia, CR" },
+      "date": { "es": "Julio 2025", "en": "July 2025" },
+      "rating": 4,
+      "text": {
+        "es": "Excelente lugar y personas maravillosas.",
+        "en": "Excellent place and wonderful people."
+      }
+    }
+  ],
+  "airbnbUrl": "https://www.airbnb.co.cr/rooms/683377270994372545"
+}
