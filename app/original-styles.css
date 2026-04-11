@@ -10,17 +10,17 @@
   --color-surface: #FFFFFF;
   --color-surface-2: #F8FAFC;
   --color-text-main: #111827;
-  --color-text-muted: #5F6B7A;
+  --color-text-muted: #66657a;
   --color-border-soft: rgba(17, 24, 39, 0.10);
   --color-overlay: rgba(17, 24, 39, 0.38);
 
-  --color-primary: #00B4B0;
-  --color-primary-hover: #028A87;
-  --color-primary-soft: rgba(0, 180, 176, 0.14);
+  --color-primary: #008481;
+  --color-primary-hover: #006a66;
+  --color-primary-soft: rgba(0, 132, 129, 0.14);
 
-  --color-secondary: #1D4F7C;
+  --color-secondary: #123a57;
   --color-romantic: #F973A2;
-  --color-success: #16A34A;
+  --color-success: #008933;
   --color-error: #EF4444;
 
   /* Legacy aliases (to avoid rewriting every selector) */
@@ -1346,7 +1346,7 @@ body.lang--en .lang-toggle__en {
 .location__address h3 {
   font-family: var(--font-heading);
   font-size: 1.4rem;
-  color: var(--color-gold);
+  color: var(--color-secondary);
 }
 .location__address p { color: var(--color-text-muted); }
 
@@ -1796,7 +1796,7 @@ textarea { resize: vertical; min-height: 110px; }
   right: 0;
   bottom: 0;
   z-index: 1400;
-  padding: 0.75rem var(--space-md);
+  padding: 0.5rem var(--space-md);
   transform: translateY(110%);
   transition: transform var(--transition-normal);
   pointer-events: none;
@@ -1808,11 +1808,13 @@ textarea { resize: vertical; min-height: 110px; }
 .sticky-booking__content {
   max-width: var(--container-max);
   margin-inline: auto;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
-  padding: 0.75rem 0.85rem;
+  padding: 0.5rem 0.85rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0));
+  min-height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1837,7 +1839,15 @@ textarea { resize: vertical; min-height: 110px; }
   color: var(--color-text-muted);
 }
 .sticky-booking__cta {
-  padding: 0.75rem 1.15rem;
+  padding: 0.9rem 1.25rem;
+  min-height: 48px;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  border-radius: 999px;
+  font-size: 1rem;
 }
 
 /* ════════════════════════════════════════ RESPONSIVE 768px ─── */

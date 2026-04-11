@@ -14,12 +14,13 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://romantico-apartamento.vercel.app'),
   title: 'Romántico Apartamento con Tina · Pital, San Carlos',
   description: 'Apartamento romántico con tina privada en Pital, San Carlos, Costa Rica. A 1.5 km del campo de girasoles. Superanfitrión. Reserva en Airbnb.',
   openGraph: {
     title: 'Romántico Apartamento con Tina · Pital, San Carlos',
     description: 'Escapada romántica con tina privada, WiFi, A/C y estacionamiento gratuito. Superanfitrión Johnny ★ 4.94 · 48 reseñas.',
-    images: ['/assets/Sala.png'],
+    images: ['/assets/sala.webp'],
     type: 'website',
   },
   robots: 'index, follow',
@@ -42,9 +43,9 @@ export default function RootLayout({
           referrerPolicy="no-referrer"
         />
         {/* Preload hero image */}
-        <link rel="preload" as="image" href="/assets/Sala.png" />
+        <link rel="preload" as="image" href="/assets/sala.webp" />
       </head>
-      <body className="lang--es">
+      <body className="lang--es" suppressHydrationWarning>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

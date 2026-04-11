@@ -9,19 +9,21 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#00B4B0',
-          hover: '#028A87',
+          // darkened to improve contrast when used as text/accents
+          DEFAULT: '#008481',
+          hover: '#006a66',
         },
-        secondary: '#1D4F7C',
+        secondary: '#123a57',
         romantic: '#F973A2',
-        'romantic-hover': '#e05593',
+        'romantic-hover': '#d24f7b',
         surface: '#FAFBFF',
         'surface-card': '#FFFFFF',
-        'text-primary': '#1a1a2e',
-        'text-secondary': '#4a4a6a',
-        'text-muted': '#8888a8',
+        'text-primary': '#0f1724',
+        'text-secondary': '#2f3440',
+        'text-muted': '#66657a',
         border: '#e8e8f0',
       },
+
       fontFamily: {
         serif: ['var(--font-heading)', 'Playfair Display', 'Georgia', 'serif'],
         sans: ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],

@@ -126,7 +126,7 @@ export function Lightbox({
             href={activeMenuUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#00B4B0] to-[#028A87] text-white font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm"
+            className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#008481] to-[#006a66] text-white font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm"
           >
             <span>Abrir menú</span>
             <i className="fas fa-external-link-alt text-xs"></i>

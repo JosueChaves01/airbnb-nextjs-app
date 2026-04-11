@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 const navLinks = [
@@ -17,6 +17,10 @@ export function Navbar() {
   const [isOpen, setIsOpen]         = useState(false);
   const { lang, toggleLang } = useLanguage();
 
+  const hamburgerRef = useRef<HTMLButtonElement | null>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -27,13 +31,48 @@ export function Navbar() {
   const closeMenu = () => {
     setIsOpen(false);
     document.body.style.overflow = '';
+    // restore focus to hamburger
+    hamburgerRef.current?.focus();
   };
 
   const toggleMenu = () => {
     const next = !isOpen;
     setIsOpen(next);
     document.body.style.overflow = next ? 'hidden' : '';
+
+    if (next) {
+      // move focus into menu
+      setTimeout(() => firstLinkRef.current?.focus(), 0);
+    } else {
+      hamburgerRef.current?.focus();
+    }
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+      if (e.key === 'Tab') {
+        const focusable = menuRef.current?.querySelectorAll<HTMLElement>('a, button') ?? [];
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [isOpen]);
 
   return (
     <nav
@@ -49,6 +88,7 @@ export function Navbar() {
         </a>
 
         <button
+          ref={hamburgerRef}
           className={`navbar__hamburger${isOpen ? ' open' : ''}`}
           id="hamburger"
           aria-label={isOpen ? (lang === 'es' ? 'Cerrar menú' : 'Close menu') : (lang === 'es' ? 'Abrir menú' : 'Open menu')}
@@ -58,11 +98,11 @@ export function Navbar() {
           <span></span><span></span><span></span>
         </button>
 
-        <div className={`navbar__menu${isOpen ? ' open' : ''}`} id="navMenu">
+        <div ref={menuRef} className={`navbar__menu${isOpen ? ' open' : ''}`} id="navMenu">
           <ul className="navbar__links">
-            {navLinks.map(link => (
+            {navLinks.map((link, idx) => (
               <li key={link.href}>
-                <a href={link.href} onClick={closeMenu}>{link[lang]}</a>
+                <a href={link.href} onClick={closeMenu} ref={idx === 0 ? firstLinkRef : undefined}>{link[lang]}</a>
               </li>
             ))}
           </ul>

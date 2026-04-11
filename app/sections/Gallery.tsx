@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import galleryData from '@/app/lib/data/gallery.json';
 import { useLanguage } from '@/app/context/LanguageContext';
 
@@ -15,6 +16,10 @@ export function Gallery() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const { lang, t } = useLanguage();
+
+  const lightboxRef = useRef<HTMLDivElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   const images: GalleryImage[] = galleryData.images;
 
@@ -37,9 +42,34 @@ export function Gallery() {
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') handlePrev();
       if (e.key === 'ArrowRight') handleNext();
+
+      // Trap focus inside lightbox
+      if (e.key === 'Tab' && lightboxRef.current) {
+        const focusable = lightboxRef.current.querySelectorAll<HTMLElement>("button, [href], input, textarea, select, [tabindex]:not([tabindex='-1'])");
+        if (focusable.length === 0) { e.preventDefault(); return; }
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
+
+    if (lightboxOpen) {
+      // save last focused element and move focus into lightbox
+      lastFocusedRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => closeButtonRef.current?.focus(), 0);
+      document.body.style.overflow = 'hidden';
+    } else {
+      // restore focus
+      document.body.style.overflow = '';
+      lastFocusedRef.current?.focus();
+    }
+
     window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightboxOpen, activeIndex]);
 
@@ -78,7 +108,13 @@ export function Gallery() {
               onClick={() => openLightbox(idx)}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(idx)}
             >
-              <img src={img.src} alt={img.alt} loading="lazy" />
+              <Image 
+                src={img.src} 
+                alt={img.alt} 
+                width={img.modifier === 'wide' ? 800 : 400} 
+                height={img.modifier === 'tall' ? 600 : 300}
+                className="object-cover"
+              />
               <figcaption>{t(img.caption)}</figcaption>
             </figure>
           ))}
@@ -86,6 +122,7 @@ export function Gallery() {
 
         {/* Inline Lightbox */}
         <div
+          ref={lightboxRef}
           className={`lightbox${lightboxOpen ? ' active' : ''}`}
           id="galleryLightbox"
           role="dialog"
@@ -93,6 +130,7 @@ export function Gallery() {
           aria-label={lang === 'es' ? 'Imagen ampliada' : 'Enlarged image'}
         >
           <button
+            ref={closeButtonRef}
             className="lightbox__close"
             type="button"
             aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
@@ -108,8 +146,15 @@ export function Gallery() {
           >
             ‹
           </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="lightbox__img" src={current?.src} alt={current?.alt ?? ''} />
+          <div className="lightbox__img-container">
+            <Image 
+              src={current?.src ?? ''} 
+              alt={current?.alt ?? ''} 
+              fill 
+              className="lightbox__img" 
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
           <div className="lightbox__caption">{current ? t(current.caption) : ''}</div>
           <div className="lightbox__counter">{activeIndex + 1} / {images.length}</div>
           <button

@@ -33,6 +33,8 @@ export function StickyBooking() {
           href="https://www.airbnb.co.cr/rooms/683377270994372545"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={lang === 'es' ? 'Reservar alojamiento (se abre en una nueva pestaña)' : 'Book accommodation (opens in new tab)'}
+          tabIndex={isVisible ? 0 : -1}
         >
           {lang === 'es' ? 'Reservar' : 'Book now'}
         </a>

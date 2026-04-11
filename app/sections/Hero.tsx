@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import heroData from '@/app/lib/data/hero.json';
 import { useLanguage } from '@/app/context/LanguageContext';
 
@@ -94,7 +95,9 @@ export function Hero() {
 
         {/* ── Right Side: Image ── */}
         <div className="hero__image-wrapper">
-          <div className="hero__image" style={{ backgroundImage: `url('${heroData.image.src}')` }}></div>
+          <div className="hero__image relative h-0 w-full" style={{ paddingBottom: '66.666%' }}>
+            <Image src={heroData.image.src} alt={heroData.image.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" priority className="object-cover" />
+          </div>
         </div>
       </div>
     </section>

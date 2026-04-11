@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 interface DiscoverImage {
@@ -27,12 +28,12 @@ const items: DiscoverItem[] = [
     },
     images: [
       {
-        src: '/assets/Restaurante1.png',
+        src: '/assets/restaurante1.webp',
         alt: 'Restaurante local 1',
         menuUrl: 'https://www.instagram.com/distrito06cr?igsh=MTRoNTVxZzhpZGx1aw%3D%3D&utm_source=qr',
       },
       {
-        src: '/assets/Restaurante2.png',
+        src: '/assets/restaurante2.webp',
         alt: 'Restaurante local 2',
         menuUrl: 'https://drive.google.com/file/d/1fGYPgTQr1CwtT2f79ydE86t7cCgZwRmH/view',
       },
@@ -47,8 +48,8 @@ const items: DiscoverItem[] = [
       en: 'Just 1.5 km away, a golden landscape that captivates. Perfect for unforgettable photos and romantic moments.',
     },
     images: [
-      { src: '/assets/Girasoles.png', alt: 'Campo de girasoles 1' },
-      { src: '/assets/Girasoles2.png', alt: 'Campo de girasoles 2' },
+      { src: '/assets/girasoles.webp', alt: 'Campo de girasoles 1' },
+      { src: '/assets/girasoles2.webp', alt: 'Campo de girasoles 2' },
     ],
     placeholders: 0,
   },
@@ -60,8 +61,8 @@ const items: DiscoverItem[] = [
       en: 'Just 20 minutes away, discover crystal-clear rivers, volcanoes, and unique biodiversity. Adventure awaits around every corner.',
     },
     images: [
-      { src: '/assets/Volcan.png', alt: 'Volcán de la zona' },
-      { src: '/assets/Laguna.jpg', alt: 'Laguna natural' },
+      { src: '/assets/volcan.webp', alt: 'Volcán de la zona' },
+      { src: '/assets/laguna.webp', alt: 'Laguna natural' },
     ],
     placeholders: 0,
   },
@@ -122,8 +123,13 @@ export function Discover() {
                       onClick={() => openLightbox(img)}
                       onKeyDown={(e) => e.key === 'Enter' && openLightbox(img)}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.src} alt={img.alt} loading="lazy" />
+                      <Image 
+                        src={img.src} 
+                        alt={img.alt} 
+                        width={400} 
+                        height={300} 
+                        className="object-cover"
+                      />
                     </div>
                   ))}
 
@@ -151,13 +157,16 @@ export function Discover() {
           <i className="fas fa-times"></i>
         </button>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         {currentImage && (
-          <img
-            className="discover-lightbox__img"
-            src={currentImage.src}
-            alt={currentImage.alt}
-          />
+          <div className="discover-lightbox__img-container">
+            <Image
+              src={currentImage.src}
+              alt={currentImage.alt}
+              fill
+              className="discover-lightbox__img"
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
         )}
 
         {currentImage?.menuUrl ? (

@@ -22,9 +22,9 @@ export function Button({
   const baseClasses = 'inline-flex items-center justify-center gap-2 font-semibold rounded-full transition-all';
   
   const variantClasses = {
-    primary: 'bg-gradient-to-r from-[#00B4B0] to-[#028A87] text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5',
-    secondary: 'border-2 border-gray-200 text-[#1D4F7C] hover:border-[#00B4B0]/50 hover:text-[#028A87]',
-    ghost: 'text-[#00B4B0] hover:bg-[#00B4B0]/10'
+    primary: 'bg-gradient-to-r from-[#008481] to-[#006a66] text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5',
+    secondary: 'border-2 border-gray-200 text-[#123a57] hover:border-[#008481]/50 hover:text-[#006a66]',
+    ghost: 'text-[#008481] hover:bg-[#008481]/10'
   };
   
   const sizeClasses = {

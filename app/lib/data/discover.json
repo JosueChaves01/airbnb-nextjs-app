@@ -13,12 +13,12 @@
       },
       "images": [
         {
-          "src": "assets/Restaurante1.png",
+          "src": "/assets/restaurante1.webp",
           "alt": "Restaurante local 1",
           "menuUrl": "https://drive.google.com/file/d/1qBP-7CqPSmAretyU6H6hdlKQCa-Rumz0/view"
         },
         {
-          "src": "assets/Restaurante2.png",
+          "src": "/assets/restaurante2.webp",
           "alt": "Restaurante local 2",
           "menuUrl": "https://drive.google.com/file/d/1fGYPgTQr1CwtT2f79ydE86t7cCgZwRmH/view"
         }
@@ -38,11 +38,11 @@
       },
       "images": [
         {
-          "src": "assets/Girasoles.png",
+          "src": "assets/girasoles.webp",
           "alt": "Campos de girasoles"
         },
         {
-          "src": "assets/Girasoles2.png",
+          "src": "assets/girasoles2.webp",
           "alt": "Campos de girasoles 2"
         }
       ],
@@ -61,11 +61,11 @@
       },
       "images": [
         {
-          "src": "assets/Volcan.png",
+          "src": "assets/volcan.webp",
           "alt": "Volcán Arenal"
         },
         {
-          "src": "assets/Laguna.jpg",
+          "src": "assets/laguna.webp",
           "alt": "Laguna de Pital"
         }
       ],

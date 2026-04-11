@@ -5,39 +5,57 @@
   },
   "images": [
     {
-      "src": "/assets/Sala.png",
+      "src": "/assets/sala.webp",
       "alt": "Habitación principal del apartamento",
-      "caption": { "es": "Habitación", "en": "Bedroom" },
+      "caption": {
+        "es": "Habitación",
+        "en": "Bedroom"
+      },
       "modifier": "wide"
     },
     {
-      "src": "/assets/Tina.png",
+      "src": "/assets/tina.webp",
       "alt": "Tina romántica privada",
-      "caption": { "es": "Tina romántica", "en": "Romantic bathtub" },
+      "caption": {
+        "es": "Tina romántica",
+        "en": "Romantic bathtub"
+      },
       "modifier": ""
     },
     {
-      "src": "/assets/Sillon.png",
+      "src": "/assets/sillon.webp",
       "alt": "Sala de estar cómoda",
-      "caption": { "es": "Sala de estar", "en": "Living room" },
+      "caption": {
+        "es": "Sala de estar",
+        "en": "Living room"
+      },
       "modifier": ""
     },
     {
-      "src": "/assets/Entrada.png",
+      "src": "/assets/entrada.webp",
       "alt": "Área exterior y patio",
-      "caption": { "es": "Área exterior", "en": "Outdoor area" },
+      "caption": {
+        "es": "Área exterior",
+        "en": "Outdoor area"
+      },
       "modifier": ""
     },
     {
-      "src": "/assets/Cocina.png",
+      "src": "/assets/cocina.webp",
       "alt": "Cocina equipada",
-      "caption": { "es": "Cocina", "en": "Kitchen" },
+      "caption": {
+        "es": "Cocina",
+        "en": "Kitchen"
+      },
       "modifier": ""
     },
     {
-      "src": "/assets/Escritorio.png",
+      "src": "/assets/escritorio.webp",
       "alt": "Zona de trabajo con escritorio",
-      "caption": { "es": "Zona de trabajo", "en": "Workspace" },
+      "caption": {
+        "es": "Zona de trabajo",
+        "en": "Workspace"
+      },
       "modifier": "tall"
     }
   ]

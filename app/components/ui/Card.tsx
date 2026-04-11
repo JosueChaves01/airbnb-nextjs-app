@@ -10,7 +10,7 @@ export function Card({ children, hover, className = '' }: CardProps) {
   return (
     <div 
       className={`bg-white rounded-3xl p-6 shadow-sm border border-gray-100 ${
-        hover ? 'hover:shadow-xl hover:-translate-y-1.5 hover:border-[#00B4B0]/30 transition-all duration-300' : ''
+        hover ? 'hover:shadow-xl hover:-translate-y-1.5 hover:border-[#008481]/30 transition-all duration-300' : ''
       } ${className}`}
     >
       {children}
@@ -37,7 +37,7 @@ interface CardTitleProps {
 
 export function CardTitle({ children }: CardTitleProps) {
   return (
-    <h3 className="font-serif text-xl text-[#1D4F7C] mb-2">{children}</h3>
+    <h3 className="font-serif text-xl text-[#123a57] mb-2">{children}</h3>
   );
 }
 
