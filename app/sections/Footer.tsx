@@ -1,6 +1,7 @@
 'use client';
 
 import contactData from '@/app/lib/data/contact.json';
+import { trackWhatsappPhoneClick } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export function Footer() {
@@ -31,6 +32,7 @@ export function Footer() {
               <a
                 href={`tel:${contactData.contact.phone.replace(/\s/g, '')}`}
                 className="footer__contact-item"
+                onClick={() => trackWhatsappPhoneClick('footer')}
               >
                 <i className="fas fa-phone"></i> {contactData.contact.phone}
               </a>

@@ -1,6 +1,7 @@
 'use client';
 
 import reviewsData from '@/app/lib/data/reviews.json';
+import { trackAirbnbClick } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 interface ReviewCategory {
@@ -110,6 +111,7 @@ export function Reviews() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn--secondary"
+            onClick={() => trackAirbnbClick('reviews_cta')}
           >
             {lang === 'es' ? 'Ver todas las reseñas en Airbnb' : 'See all reviews on Airbnb'}
           </a>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import contactData from '@/app/lib/data/contact.json';
+import { trackAirbnbClick, trackContactFormSuccess } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 interface FormState {
@@ -52,6 +53,7 @@ export function Contact() {
       });
 
       if (response.ok) {
+        trackContactFormSuccess();
         setSubmitted(true);
       } else {
         setError(lang === 'es'
@@ -250,6 +252,7 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn--primary"
+                  onClick={() => trackAirbnbClick('contact_success')}
                 >
                   {lang === 'es' ? 'Reservar ahora en Airbnb' : 'Book now on Airbnb'} <i className="fas fa-home"></i>
                 </a>
@@ -299,6 +302,7 @@ export function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn--secondary btn--full"
+                onClick={() => trackAirbnbClick('contact_sidebar')}
               >
                 {lang === 'es' ? 'Ver anuncio en Airbnb' : 'View listing on Airbnb'}
               </a>

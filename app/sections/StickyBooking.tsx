@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { trackAirbnbClick } from '@/app/lib/analytics';
 
 export function StickyBooking() {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,6 +36,7 @@ export function StickyBooking() {
           rel="noopener noreferrer"
           aria-label={lang === 'es' ? 'Reservar alojamiento (se abre en una nueva pestaña)' : 'Book accommodation (opens in new tab)'}
           tabIndex={isVisible ? 0 : -1}
+          onClick={() => trackAirbnbClick('sticky_booking')}
         >
           {lang === 'es' ? 'Reservar' : 'Book now'}
         </a>

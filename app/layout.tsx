@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { LanguageProvider } from './context/LanguageContext'
 import './globals.css'
 
@@ -47,6 +49,8 @@ export default function RootLayout({
       </head>
       <body className="lang--es" suppressHydrationWarning>
         <LanguageProvider>{children}</LanguageProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { trackInstagramClick } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 interface DiscoverImage {
@@ -176,6 +177,7 @@ export function Discover() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={lang === 'es' ? 'Ver restaurante en Instagram (enlace externo)' : 'View restaurant on Instagram (external link)'}
+            onClick={() => trackInstagramClick('discover_distrito06')}
           >
             <i className="fab fa-instagram"></i>
             <span>{lang === 'es' ? 'Ver en Instagram' : 'View on Instagram'}</span>
