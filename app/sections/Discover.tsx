@@ -127,14 +127,6 @@ export function Discover() {
                     </div>
                   ))}
 
-                  {Array.from({ length: item.placeholders }).map((_, pIdx) => (
-                    <div
-                      key={`ph-${pIdx}`}
-                      className="discover__image discover__image--placeholder"
-                    >
-                      <span>+</span>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
