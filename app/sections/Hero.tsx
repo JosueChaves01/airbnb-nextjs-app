@@ -44,10 +44,8 @@ export function Hero() {
   const { lang, t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const sunY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
+  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '8%']);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
 
   const [airbnb, phone, location] = heroData.contactGrid;
   const locationLabel = typeof location.label === 'string'
@@ -61,24 +59,14 @@ export function Hero() {
       id="inicio"
       aria-label={lang === 'es' ? 'Sección principal' : 'Main section'}
     >
-      {/* Decorative backdrop */}
-      <motion.div className="hero__backdrop" style={{ y: sunY }} aria-hidden="true">
-        <Sunburst className="hero__sunburst" rays={72} />
-      </motion.div>
-      <div className="hero__pillars" aria-hidden="true">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <motion.span
-            key={i}
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 1.4, delay: 0.1 + i * 0.08, ease: EASE_DECO }}
-          />
-        ))}
+      {/* Decorative backdrop — a single, static sunburst kept very faint */}
+      <div className="hero__backdrop" aria-hidden="true">
+        <Sunburst className="hero__sunburst" rays={48} spin={false} />
       </div>
 
       <div className="hero__container">
         {/* ── Left: content ── */}
-        <motion.div className="hero__content" variants={container} initial="hidden" animate="visible" style={{ y: contentY }}>
+        <motion.div className="hero__content" variants={container} initial="hidden" animate="visible">
           <motion.p className="hero__slogan" variants={item}>
             <span className="hero__slogan-mark" aria-hidden="true" />
             {t(heroData.brand.slogan)}
@@ -187,28 +175,14 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            className="hero__medallion"
-            initial={{ opacity: 0, scale: 0.4, rotate: -90 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 1.2, delay: 1.3, ease: EASE_DECO }}
+            className="hero__seal"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 1.1, ease: EASE_DECO }}
             aria-hidden="true"
           >
-            <motion.svg
-              viewBox="0 0 120 120"
-              className="hero__medallion-ring"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-            >
-              <defs>
-                <path id="medallion-circle" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0" />
-              </defs>
-              <text>
-                <textPath href="#medallion-circle" textLength="286" lengthAdjust="spacing">
-                  {lang === 'es' ? 'SUPERANFITRIÓN ★ PITAL ★ SAN CARLOS ★ ' : 'SUPERHOST ★ PITAL ★ SAN CARLOS ★ '}
-                </textPath>
-              </text>
-            </motion.svg>
-            <span className="hero__medallion-score">{heroData.rating.score}</span>
+            <span className="hero__seal-score">{heroData.rating.score}</span>
+            <span className="hero__seal-label">{lang === 'es' ? 'Superanfitrión' : 'Superhost'}</span>
           </motion.div>
         </div>
       </div>

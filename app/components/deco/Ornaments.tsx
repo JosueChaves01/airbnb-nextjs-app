@@ -13,17 +13,19 @@ interface SunburstProps {
 }
 
 /** Radiating gold rays — the signature Art Deco motif. Purely decorative. */
-export function Sunburst({ className = '', rays = 48, spin = true }: SunburstProps) {
+export function Sunburst({ className = '', rays = 48, spin = false }: SunburstProps) {
   const lines = Array.from({ length: rays }, (_, i) => {
     const angle = (i / rays) * Math.PI * 2;
     const long = i % 2 === 0;
     const r1 = long ? 60 : 120;
     const r2 = 500;
+    // Rounded so server and client render identical attributes (avoids hydration mismatch).
+    const round = (n: number) => Math.round(n * 100) / 100;
     return {
-      x1: 500 + Math.cos(angle) * r1,
-      y1: 500 + Math.sin(angle) * r1,
-      x2: 500 + Math.cos(angle) * r2,
-      y2: 500 + Math.sin(angle) * r2,
+      x1: round(500 + Math.cos(angle) * r1),
+      y1: round(500 + Math.sin(angle) * r1),
+      x2: round(500 + Math.cos(angle) * r2),
+      y2: round(500 + Math.sin(angle) * r2),
       w: long ? 1.4 : 0.6,
     };
   });
