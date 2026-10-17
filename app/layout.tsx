@@ -1,18 +1,29 @@
-import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Josefin_Sans, Limelight, Bodoni_Moda } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { LanguageProvider } from './context/LanguageContext'
+import { MotionProvider } from './components/motion/MotionProvider'
 import './globals.css'
 
-const inter = Inter({
+const josefin = Josefin_Sans({
   subsets: ['latin'],
-  variable: '--font-body'
+  variable: '--font-body',
+  display: 'swap',
 })
 
-const playfair = Playfair_Display({
+const limelight = Limelight({
   subsets: ['latin'],
-  variable: '--font-heading'
+  weight: '400',
+  variable: '--font-display',
+  display: 'swap',
+})
+
+const bodoni = Bodoni_Moda({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  variable: '--font-accent',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -28,13 +39,17 @@ export const metadata: Metadata = {
   robots: 'index, follow',
 }
 
+export const viewport: Viewport = {
+  themeColor: '#0a0a0c',
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="es" className={`${josefin.variable} ${limelight.variable} ${bodoni.variable}`}>
       <head>
         {/* Font Awesome Icons */}
         <link
@@ -48,7 +63,9 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/assets/sala.webp" />
       </head>
       <body className="lang--es" suppressHydrationWarning>
-        <LanguageProvider>{children}</LanguageProvider>
+        <MotionProvider>
+          <LanguageProvider>{children}</LanguageProvider>
+        </MotionProvider>
         <Analytics />
         <SpeedInsights />
       </body>

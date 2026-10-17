@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import amenitiesData from '@/app/lib/data/amenities.json';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { SectionHeading } from '@/app/components/deco/Ornaments';
+import { Reveal, Stagger, StaggerItem, fadeUp, EASE_DECO } from '@/app/components/motion/Reveal';
 
 interface AmenityItem {
   icon: string;
@@ -14,6 +17,17 @@ interface AmenityGroup {
   items: AmenityItem[];
 }
 
+function Amenity({ item, label }: { item: AmenityItem; label: string }) {
+  return (
+    <motion.div className="amenity-item" whileHover={{ x: 6 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+      <span className="amenity-item__icon">
+        <i className={`fas fa-${item.icon}`} aria-hidden="true"></i>
+      </span>
+      <span className="amenity-item__label">{label}</span>
+    </motion.div>
+  );
+}
+
 export function Amenities() {
   const [showExtra, setShowExtra] = useState(false);
   const { lang, t } = useLanguage();
@@ -21,63 +35,79 @@ export function Amenities() {
   const extra: AmenityItem[] = amenitiesData.extra;
 
   return (
-    <section className="amenities" id="amenidades" aria-labelledby="amenities-title">
+    <section className="section section--emerald amenities" id="amenidades" aria-labelledby="amenities-title">
       <div className="container">
-        <h2 className="section-title fade-in" id="amenities-title">
-          {lang === 'es' ? 'Todo lo que necesitas' : 'Everything you need'}
-        </h2>
+        <SectionHeading
+          id="amenities-title"
+          numeral="III"
+          eyebrow={lang === 'es' ? 'Comodidades' : 'Comforts'}
+          title={lang === 'es' ? 'Todo lo que necesitas' : 'Everything you need'}
+        />
 
-        <div className="amenities__groups fade-in" aria-label={lang === 'es' ? 'Amenidades clave' : 'Key amenities'}>
+        <Stagger className="amenities__groups" stagger={0.15}>
           {groups.map((group, gIdx) => (
-            <article key={gIdx} className="amenities-group">
-              <h3 className="amenities-group__title">{t(group.title)}</h3>
-              <div className="amenities__grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            <StaggerItem key={gIdx} variants={fadeUp} className="amenities-group">
+              <h3 className="amenities-group__title">
+                <span className="amenities-group__index" aria-hidden="true">0{gIdx + 1}</span>
+                {t(group.title)}
+              </h3>
+              <div className="amenities-group__list">
                 {group.items.map((item, iIdx) => (
-                  <div key={iIdx} className="amenity-item">
-                    <span className="amenity-item__icon">
-                      <i className={`fas fa-${item.icon}`}></i>
-                    </span>
-                    <span className="amenity-item__label">{t(item.label)}</span>
-                  </div>
+                  <Amenity key={iIdx} item={item} label={t(item.label)} />
                 ))}
               </div>
-            </article>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
 
-        <div
-          className="amenities__extra fade-in"
-          id="amenities-extra"
-          hidden={!showExtra}
-          aria-hidden={!showExtra}
-        >
-          <div className="amenities__grid">
-            {extra.map((item, idx) => (
-              <div key={idx} className="amenity-item">
-                <span className="amenity-item__icon">
-                  <i className={`fas fa-${item.icon}`}></i>
-                </span>
-                <span className="amenity-item__label">{t(item.label)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <AnimatePresence initial={false}>
+          {showExtra && (
+            <motion.div
+              className="amenities__extra"
+              id="amenities-extra"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.6, ease: EASE_DECO }}
+            >
+              <motion.div
+                className="amenities__extra-grid"
+                initial="hidden"
+                animate="visible"
+                variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05, delayChildren: 0.15 } } }}
+              >
+                {extra.map((item, idx) => (
+                  <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}>
+                    <Amenity item={item} label={t(item.label)} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <div className="amenities__cta fade-in">
-          <button
+        <Reveal className="amenities__cta">
+          <motion.button
             type="button"
-            className="btn btn--secondary"
-            id="amenitiesToggle"
+            className="btn btn--outline-gold"
             aria-expanded={showExtra}
             aria-controls="amenities-extra"
             onClick={() => setShowExtra(!showExtra)}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
           >
             {showExtra
               ? (lang === 'es' ? 'Ver menos' : 'Show less')
               : (lang === 'es' ? 'Ver todas las amenidades' : 'Show all amenities')
             }
-          </button>
-        </div>
+            <motion.i
+              className="fas fa-chevron-down"
+              aria-hidden="true"
+              animate={{ rotate: showExtra ? 180 : 0 }}
+              transition={{ duration: 0.4, ease: EASE_DECO }}
+            />
+          </motion.button>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,9 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import { trackInstagramClick } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { Portal } from '@/app/components/Portal';
+import { SectionHeading, CornerFrame } from '@/app/components/deco/Ornaments';
+import { EASE_DECO } from '@/app/components/motion/Reveal';
 
 interface DiscoverImage {
   src: string;
@@ -70,120 +74,181 @@ const items: DiscoverItem[] = [
 ];
 
 export function Discover() {
-  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<DiscoverImage | null>(null);
   const { lang, t } = useLanguage();
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
+
+  const { scrollYProgress } = useScroll({ target: timelineRef, offset: ['start 70%', 'end 60%'] });
+  const progress = useSpring(scrollYProgress, { stiffness: 100, damping: 28, mass: 0.4 });
 
   const openLightbox = (image: DiscoverImage) => {
+    lastFocusedRef.current = document.activeElement as HTMLElement;
     setCurrentImage(image);
-    setLightboxOpen(true);
   };
 
-  const closeLightbox = () => {
-    setLightboxOpen(false);
-    setCurrentImage(null);
-  };
+  const closeLightbox = () => setCurrentImage(null);
+
+  useEffect(() => {
+    if (!currentImage) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setCurrentImage(null);
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => closeRef.current?.focus(), 0);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+      lastFocusedRef.current?.focus();
+    };
+  }, [currentImage]);
 
   return (
     <>
-      <section className="discover" id="descubre" aria-labelledby="discover-title">
-        <div className="discover__header">
-          <h2 className="section-title fade-in" id="discover-title">
-            {lang === 'es' ? 'Descubre Pital' : 'Discover Pital'}
-          </h2>
-          <p className="discover__subtitle fade-in">
-            {lang === 'es'
+      <section className="section section--emerald discover" id="descubre" aria-labelledby="discover-title">
+        <div className="container">
+          <SectionHeading
+            id="discover-title"
+            numeral="VI"
+            eyebrow={lang === 'es' ? 'Alrededores' : 'Surroundings'}
+            title={lang === 'es' ? 'Descubre Pital' : 'Discover Pital'}
+            subtitle={lang === 'es'
               ? 'Explora los tesoros naturales y gastronómicos que rodean tu alojamiento'
               : 'Explore the natural and gastronomic treasures surrounding your stay'}
-          </p>
-        </div>
+          />
 
-        <div className="discover__timeline-container" id="discoverTimeline">
-          <div className="discover__timeline-track"></div>
-          <div className="discover__timeline-progress" id="timelineProgress"></div>
+          <div className="discover__timeline" ref={timelineRef}>
+            <div className="discover__track" aria-hidden="true">
+              <motion.div className="discover__progress" style={{ scaleY: progress }} />
+            </div>
 
-          {items.map((item) => (
-            <div key={item.number} className="discover__item" data-timeline={item.number}>
-              <div className="discover__item-marker">
-                <div className="discover__item-dot"></div>
-                <span className="discover__item-number">{item.number}</span>
-              </div>
+            {items.map((item, idx) => (
+              <motion.div
+                key={item.number}
+                className={`discover__item${idx % 2 === 1 ? ' discover__item--reverse' : ''}`}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '0px 0px -120px 0px' }}
+              >
+                <motion.div
+                  className="discover__marker"
+                  aria-hidden="true"
+                  variants={{ hidden: { scale: 0, rotate: -45 }, visible: { scale: 1, rotate: 45 } }}
+                  transition={{ type: 'spring', stiffness: 220, damping: 16 }}
+                >
+                  <span>{item.number}</span>
+                </motion.div>
 
-              <div className="discover__item-content">
-                <h3>{t(item.title)}</h3>
-                <p>{t(item.description)}</p>
+                <motion.div
+                  className="discover__content"
+                  variants={{ hidden: { opacity: 0, x: idx % 2 === 1 ? 60 : -60 }, visible: { opacity: 1, x: 0 } }}
+                  transition={{ duration: 0.9, ease: EASE_DECO }}
+                >
+                  <span className="discover__number" aria-hidden="true">{item.number}</span>
+                  <h3>{t(item.title)}</h3>
+                  <p>{t(item.description)}</p>
+                </motion.div>
 
-                <div className="discover__gallery">
+                <motion.div
+                  className="discover__gallery"
+                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } } }}
+                >
                   {item.images.map((img, imgIdx) => (
-                    <div
+                    <motion.div
                       key={imgIdx}
                       className="discover__image"
                       tabIndex={0}
                       role="button"
                       aria-label={lang === 'es' ? 'Ver imagen ampliada' : 'View enlarged image'}
                       onClick={() => openLightbox(img)}
-                      onKeyDown={(e) => e.key === 'Enter' && openLightbox(img)}
+                      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), openLightbox(img))}
+                      variants={{ hidden: { opacity: 0, y: 40, clipPath: 'inset(0 0 100% 0)' }, visible: { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' } }}
+                      transition={{ duration: 0.9, ease: EASE_DECO }}
+                      whileHover={{ y: -6 }}
                     >
-                      <Image 
-                        src={img.src} 
-                        alt={img.alt} 
-                        width={400} 
-                        height={300} 
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 22vw"
                         className="object-cover"
                       />
-                    </div>
+                      <span className="discover__image-zoom" aria-hidden="true">
+                        <i className="fas fa-expand"></i>
+                      </span>
+                    </motion.div>
                   ))}
-
-                </div>
-              </div>
-            </div>
-          ))}
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Discover Lightbox */}
-      <div
-        className={`lightbox discover-lightbox${lightboxOpen ? ' active' : ''}`}
-        id="discoverLightbox"
-        role="dialog"
-        aria-modal="true"
-        aria-label={lang === 'es' ? 'Imagen ampliada' : 'Enlarged image'}
-      >
-        <button
-          className="lightbox__close discover-lightbox__close"
-          type="button"
-          aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
-          onClick={closeLightbox}
-        >
-          <i className="fas fa-times"></i>
-        </button>
-
+      <Portal>
+      <AnimatePresence>
         {currentImage && (
-          <div className="discover-lightbox__img-container">
-            <Image
-              src={currentImage.src}
-              alt={currentImage.alt}
-              fill
-              className="discover-lightbox__img"
-              style={{ objectFit: 'contain' }}
-            />
-          </div>
-        )}
-
-        {currentImage?.menuUrl ? (
-          <a
-            href={currentImage.menuUrl}
-            className="discover-lightbox__caption"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={lang === 'es' ? 'Ver restaurante en Instagram (enlace externo)' : 'View restaurant on Instagram (external link)'}
-            onClick={() => trackInstagramClick('discover_distrito06')}
+          <motion.div
+            className="lightbox discover-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label={lang === 'es' ? 'Imagen ampliada' : 'Enlarged image'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            onClick={(e) => e.target === e.currentTarget && closeLightbox()}
           >
-            <i className="fab fa-instagram"></i>
-            <span>{lang === 'es' ? 'Ver en Instagram' : 'View on Instagram'}</span>
-          </a>
-        ) : null}
-      </div>
+            <button
+              ref={closeRef}
+              className="lightbox__close"
+              type="button"
+              aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
+              onClick={closeLightbox}
+            >
+              <i className="fas fa-times" aria-hidden="true"></i>
+            </button>
+
+            <motion.div
+              className="lightbox__stage"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.5, ease: EASE_DECO }}
+            >
+              <div className="lightbox__img-container">
+                <Image
+                  src={currentImage.src}
+                  alt={currentImage.alt}
+                  fill
+                  sizes="90vw"
+                  className="lightbox__img"
+                  style={{ objectFit: 'contain' }}
+                />
+              </div>
+              <CornerFrame className="lightbox__corners" />
+            </motion.div>
+
+            {currentImage.menuUrl ? (
+              <motion.a
+                href={currentImage.menuUrl}
+                className="btn btn--gold discover-lightbox__caption"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={lang === 'es' ? 'Ver restaurante en Instagram (enlace externo)' : 'View restaurant on Instagram (external link)'}
+                onClick={() => trackInstagramClick('discover_distrito06')}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
+              >
+                <i className="fab fa-instagram" aria-hidden="true"></i>
+                <span>{lang === 'es' ? 'Ver en Instagram' : 'View on Instagram'}</span>
+              </motion.a>
+            ) : null}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      </Portal>
     </>
   );
 }

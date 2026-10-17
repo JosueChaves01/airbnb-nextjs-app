@@ -1,117 +1,233 @@
 'use client';
 
+import { useRef } from 'react';
 import Image from 'next/image';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import heroData from '@/app/lib/data/hero.json';
 import { trackAirbnbClick, trackWhatsappPhoneClick } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { Sunburst, CornerFrame } from '@/app/components/deco/Ornaments';
+import { EASE_DECO } from '@/app/components/motion/Reveal';
+
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.13, delayChildren: 0.45 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE_DECO } },
+};
+
+const contactIcons = {
+  airbnb: (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" x2="22" y1="12" y2="12"></line>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+  ),
+  phone: (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  ),
+  location: (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+  ),
+};
 
 export function Hero() {
   const { lang, t } = useLanguage();
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const sunY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
+
+  const [airbnb, phone, location] = heroData.contactGrid;
+  const locationLabel = typeof location.label === 'string'
+    ? location.label
+    : t(location.label as { es: string; en: string });
 
   return (
-    <section className="hero hero--new" id="inicio" aria-label={lang === 'es' ? 'Sección principal' : 'Main section'}>
+    <section
+      ref={sectionRef}
+      className="hero"
+      id="inicio"
+      aria-label={lang === 'es' ? 'Sección principal' : 'Main section'}
+    >
+      {/* Decorative backdrop */}
+      <motion.div className="hero__backdrop" style={{ y: sunY }} aria-hidden="true">
+        <Sunburst className="hero__sunburst" rays={72} />
+      </motion.div>
+      <div className="hero__pillars" aria-hidden="true">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <motion.span
+            key={i}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 1.4, delay: 0.1 + i * 0.08, ease: EASE_DECO }}
+          />
+        ))}
+      </div>
+
       <div className="hero__container">
+        {/* ── Left: content ── */}
+        <motion.div className="hero__content" variants={container} initial="hidden" animate="visible" style={{ y: contentY }}>
+          <motion.p className="hero__slogan" variants={item}>
+            <span className="hero__slogan-mark" aria-hidden="true" />
+            {t(heroData.brand.slogan)}
+            <span className="hero__slogan-mark" aria-hidden="true" />
+          </motion.p>
 
-        {/* ── Left Side: Content ── */}
-        <div className="hero__content">
-          <header className="hero__header hero-animate" data-delay="0">
-            <div className="hero__brand">
-              <span className="hero__logo-icon"><i className="fas fa-home"></i></span>
-              <div>
-                <p className="hero__logo-text">{heroData.brand.name}</p>
-                <p className="hero__slogan">{t(heroData.brand.slogan)}</p>
-              </div>
-            </div>
-          </header>
+          <motion.h1 className="hero__title" variants={item}>
+            <span className="hero__title-prefix">{t(heroData.title.prefix)}</span>
+            <span className="hero__title-accent">{heroData.title.accent}</span>
+            <span className="hero__title-suffix">{t(heroData.title.suffix)}</span>
+          </motion.h1>
 
-          <main className="hero__main">
-            <h1 className="hero__title hero-animate" data-delay="1">
-              <span>{t(heroData.title.prefix)}</span>
-              <span className="hero__title--accent">{heroData.title.accent}</span>
-              <br />
-              <span>{t(heroData.title.suffix)}</span>
-            </h1>
+          <motion.div
+            className="hero__rule"
+            aria-hidden="true"
+            variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1, transition: { duration: 1.1, ease: EASE_DECO } } }}
+          >
+            <span className="hero__rule-diamond" />
+          </motion.div>
 
-            <div className="hero__divider hero-animate" data-delay="2"></div>
+          <motion.p className="hero__subtitle" variants={item}>
+            {t(heroData.subtitle)}
+          </motion.p>
 
-            <p className="hero__subtitle hero-animate" data-delay="3">
-              {t(heroData.subtitle)}
-            </p>
+          <motion.ul className="hero__features" variants={container}>
+            {heroData.features.map((feat: { es: string; en: string }, idx: number) => (
+              <motion.li key={idx} variants={item}>
+                <span className="hero__feature-mark" aria-hidden="true" />
+                <span>{t(feat)}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
 
-            <ul className="hero__features hero-animate" data-delay="4">
-              {heroData.features.map((feat: { es: string; en: string }, idx: number) => (
-                <li key={idx}>
-                  <i className="fas fa-check"></i>{' '}
-                  <span>{t(feat)}</span>
-                </li>
-              ))}
-            </ul>
-
-            <a
+          <motion.div variants={item} className="hero__actions">
+            <motion.a
               href={heroData.cta.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero__cta hero-animate"
-              data-delay="5"
+              className="btn btn--gold btn--lg"
               onClick={() => trackAirbnbClick('hero_cta')}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.97 }}
             >
-              {t(heroData.cta.text)}
-            </a>
-          </main>
-
-          <footer className="hero__footer hero-animate" data-delay="6">
-            <div className="hero__contact-grid">
-              {/* Airbnb */}
-              <a
-                href={heroData.contactGrid[0].href}
-                className="hero__contact-item"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackAirbnbClick('hero_grid')}
-              >
-                <span className="hero__contact-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="2" x2="22" y1="12" y2="12"></line>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                  </svg>
-                </span>
-                <span>{heroData.contactGrid[0].label as string}</span>
-              </a>
-              {/* Phone */}
-              <a
-                href={heroData.contactGrid[1].href}
-                className="hero__contact-item"
-                onClick={() => trackWhatsappPhoneClick('hero')}
-              >
-                <span className="hero__contact-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                </span>
-                <span>{heroData.contactGrid[1].label as string}</span>
-              </a>
-              {/* Location */}
-              <a href={heroData.contactGrid[2].href} target="_blank" rel="noopener noreferrer" className="hero__contact-item">
-                <span className="hero__contact-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                </span>
-                <span>{typeof heroData.contactGrid[2].label === 'string' ? heroData.contactGrid[2].label : t(heroData.contactGrid[2].label as {es:string; en:string})}</span>
-              </a>
+              <span>{t(heroData.cta.text)}</span>
+            </motion.a>
+            <div className="hero__rating" aria-label={`${heroData.rating.score} · ${heroData.rating.reviews} ${lang === 'es' ? 'reseñas' : 'reviews'}`}>
+              <span className="hero__rating-stars" aria-hidden="true">{'★'.repeat(heroData.rating.stars)}</span>
+              <span className="hero__rating-text">
+                {heroData.rating.score} · {heroData.rating.reviews} {lang === 'es' ? 'reseñas' : 'reviews'}
+              </span>
             </div>
-          </footer>
-        </div>
+          </motion.div>
 
-        {/* ── Right Side: Image ── */}
-        <div className="hero__image-wrapper">
-          <div className="hero__image relative h-0 w-full" style={{ paddingBottom: '66.666%' }}>
-            <Image src={heroData.image.src} alt={heroData.image.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" priority className="object-cover" />
-          </div>
+          <motion.div className="hero__contact-grid" variants={item}>
+            <a
+              href={airbnb.href}
+              className="hero__contact-item"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackAirbnbClick('hero_grid')}
+            >
+              <span className="hero__contact-icon">{contactIcons.airbnb}</span>
+              <span>{airbnb.label as string}</span>
+            </a>
+            <a
+              href={phone.href}
+              className="hero__contact-item"
+              onClick={() => trackWhatsappPhoneClick('hero')}
+            >
+              <span className="hero__contact-icon">{contactIcons.phone}</span>
+              <span>{phone.label as string}</span>
+            </a>
+            <a href={location.href} target="_blank" rel="noopener noreferrer" className="hero__contact-item">
+              <span className="hero__contact-icon">{contactIcons.location}</span>
+              <span>{locationLabel}</span>
+            </a>
+          </motion.div>
+        </motion.div>
+
+        {/* ── Right: arched image ── */}
+        <div className="hero__visual">
+          <motion.div
+            className="hero__arch-outline"
+            aria-hidden="true"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.4, delay: 0.6, ease: EASE_DECO }}
+          />
+          <motion.div
+            className="hero__arch"
+            initial={{ clipPath: 'inset(100% 0 0 0)' }}
+            animate={{ clipPath: 'inset(0% 0 0 0)' }}
+            transition={{ duration: 1.5, delay: 0.3, ease: EASE_DECO }}
+          >
+            <motion.div className="hero__arch-img" style={{ y: imageY, scale: imageScale }}>
+              <Image
+                src={heroData.image.src}
+                alt={heroData.image.alt}
+                fill
+                sizes="(max-width: 960px) 90vw, 45vw"
+                priority
+                className="object-cover"
+              />
+            </motion.div>
+            <CornerFrame className="hero__arch-corners" />
+          </motion.div>
+
+          <motion.div
+            className="hero__medallion"
+            initial={{ opacity: 0, scale: 0.4, rotate: -90 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 1.2, delay: 1.3, ease: EASE_DECO }}
+            aria-hidden="true"
+          >
+            <motion.svg
+              viewBox="0 0 120 120"
+              className="hero__medallion-ring"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            >
+              <defs>
+                <path id="medallion-circle" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0" />
+              </defs>
+              <text>
+                <textPath href="#medallion-circle" textLength="286" lengthAdjust="spacing">
+                  {lang === 'es' ? 'SUPERANFITRIÓN ★ PITAL ★ SAN CARLOS ★ ' : 'SUPERHOST ★ PITAL ★ SAN CARLOS ★ '}
+                </textPath>
+              </text>
+            </motion.svg>
+            <span className="hero__medallion-score">{heroData.rating.score}</span>
+          </motion.div>
         </div>
       </div>
+
+      <motion.a
+        href="#destacados"
+        className="hero__scroll"
+        aria-label={lang === 'es' ? 'Desplazarse hacia abajo' : 'Scroll down'}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+      >
+        <motion.span
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <i className="fas fa-chevron-down" aria-hidden="true"></i>
+        </motion.span>
+      </motion.a>
     </section>
   );
 }

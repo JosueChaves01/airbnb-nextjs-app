@@ -4,6 +4,9 @@ import { useState } from 'react';
 import contactData from '@/app/lib/data/contact.json';
 import { trackAirbnbClick, trackContactFormSuccess } from '@/app/lib/analytics';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { AnimatePresence, motion } from 'framer-motion';
+import { SectionHeading, CornerFrame } from '@/app/components/deco/Ornaments';
+import { Reveal, EASE_DECO } from '@/app/components/motion/Reveal';
 
 interface FormState {
   name: string;
@@ -72,28 +75,37 @@ export function Contact() {
   const host = contactData.host;
 
   return (
-    <section className="contact" id="contacto" aria-labelledby="contact-title">
+    <section className="section section--ivory contact" id="contacto" aria-labelledby="contact-title">
       <div className="container">
-        <h2 className="section-title fade-in" id="contact-title">
-          {lang === 'es' ? '¿Tienes preguntas sobre tu estancia?' : 'Have questions about your stay?'}
-        </h2>
-        <p className="section-subtitle fade-in">
-          {lang === 'es'
+        <SectionHeading
+          id="contact-title"
+          numeral="VII"
+          eyebrow={lang === 'es' ? 'Contacto' : 'Contact'}
+          title={lang === 'es' ? '¿Tienes preguntas sobre tu estancia?' : 'Have questions about your stay?'}
+          subtitle={lang === 'es'
             ? 'Escríbenos tus dudas o planes de viaje. Para reservar y pagar de forma segura, usa el botón de Airbnb.'
             : 'Send us your questions or travel plans. To book and pay securely, use the Airbnb button.'}
-        </p>
+          tone="light"
+        />
 
         <div className="contact__layout">
 
           {/* ── Form wrapper ── */}
-          <div className="contact__form-wrapper fade-in">
+          <Reveal className="contact__form-wrapper">
+            <CornerFrame className="contact__corners" />
             <div className="contact__booking-note" role="note">
-              <strong>{lang === 'es' ? 'Reserva oficial:' : 'Official booking:'}</strong>
-              <span> {lang === 'es' ? 'Airbnb (pago seguro y confirmación inmediata)' : 'Airbnb (secure payment and instant confirmation)'}</span>
+              <i className="fas fa-shield-alt" aria-hidden="true"></i>
+              <span>
+                <strong>{lang === 'es' ? 'Reserva oficial:' : 'Official booking:'}</strong>
+                {' '}{lang === 'es' ? 'Airbnb (pago seguro y confirmación inmediata)' : 'Airbnb (secure payment and instant confirmation)'}
+              </span>
             </div>
 
+            <AnimatePresence mode="wait" initial={false}>
             {!submitted ? (
-              <form
+              <motion.form
+                key="form"
+                exit={{ opacity: 0, y: -20, transition: { duration: 0.35 } }}
                 className="contact-form"
                 id="contactForm"
                 onSubmit={handleSubmit}
@@ -223,45 +235,56 @@ export function Contact() {
                   </span>
                 )}
 
-                <button
+                <motion.button
                   type="submit"
-                  className="btn btn--primary btn--full"
+                  className="btn btn--gold btn--full"
                   disabled={submitting}
+                  whileHover={submitting ? undefined : { y: -2 }}
+                  whileTap={submitting ? undefined : { scale: 0.98 }}
                 >
                   {submitting
                     ? (lang === 'es' ? 'Enviando...' : 'Sending...')
                     : (lang === 'es' ? 'Enviar consulta' : 'Send inquiry')
                   }
-                </button>
-              </form>
+                </motion.button>
+              </motion.form>
             ) : (
-              <div
+              <motion.div
+                key="success"
                 className="contact-success"
                 id="contactSuccess"
                 role="alert"
                 aria-live="polite"
-                style={{ display: 'flex' }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE_DECO }}
               >
-                <div className="contact-success__icon">
-                  <i className="fas fa-check-circle"></i>
-                </div>
+                <motion.div
+                  className="contact-success__icon"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.2 }}
+                >
+                  <i className="fas fa-check" aria-hidden="true"></i>
+                </motion.div>
                 <h3>{lang === 'es' ? '¡Mensaje enviado!' : 'Message sent!'}</h3>
                 <p>{lang === 'es' ? 'Gracias por contactarnos. Johnny te responderá muy pronto.' : 'Thank you for reaching out. Johnny will get back to you very soon.'}</p>
                 <a
                   href={contactData.social.airbnb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn--primary"
+                  className="btn btn--gold"
                   onClick={() => trackAirbnbClick('contact_success')}
                 >
-                  {lang === 'es' ? 'Reservar ahora en Airbnb' : 'Book now on Airbnb'} <i className="fas fa-home"></i>
+                  {lang === 'es' ? 'Reservar ahora en Airbnb' : 'Book now on Airbnb'} <i className="fas fa-home" aria-hidden="true"></i>
                 </a>
-              </div>
+              </motion.div>
             )}
-          </div>
+            </AnimatePresence>
+          </Reveal>
 
           {/* ── Sidebar ── */}
-          <aside className="contact__sidebar fade-in">
+          <Reveal as="aside" className="contact__sidebar" delay={0.15}>
             <div className="contact-card">
               <div className="contact-card__host">
                 <div className="contact-card__avatar" aria-hidden="true">{host.avatar}</div>
@@ -301,13 +324,13 @@ export function Contact() {
                 href={contactData.social.airbnb}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn--secondary btn--full"
+                className="btn btn--outline-gold btn--full"
                 onClick={() => trackAirbnbClick('contact_sidebar')}
               >
                 {lang === 'es' ? 'Ver anuncio en Airbnb' : 'View listing on Airbnb'}
               </a>
             </div>
-          </aside>
+          </Reveal>
         </div>
       </div>
     </section>

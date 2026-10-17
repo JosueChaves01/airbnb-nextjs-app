@@ -7,47 +7,21 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // Art Deco palette — mirrors the CSS custom properties in app/globals.css
       colors: {
-        primary: {
-          // darkened to improve contrast when used as text/accents
-          DEFAULT: '#008481',
-          hover: '#006a66',
-        },
-        secondary: '#123a57',
-        romantic: '#F973A2',
-        'romantic-hover': '#d24f7b',
-        surface: '#FAFBFF',
-        'surface-card': '#FFFFFF',
-        'text-primary': '#0f1724',
-        'text-secondary': '#2f3440',
-        'text-muted': '#66657a',
-        border: '#e8e8f0',
+        ink: { DEFAULT: '#0a0a0c', 2: '#121216', 3: '#1c1c22' },
+        gold: { DEFAULT: '#d4af37', light: '#f3d98b', dark: '#8f6d1a' },
+        ivory: { DEFAULT: '#f6eedb', 2: '#efe3c6', 3: '#e4d4ae' },
+        emerald: { DEFAULT: '#0d332d', 2: '#134a41', 3: '#1b5e52' },
+        wine: '#7b1e3a',
       },
-
       fontFamily: {
-        serif: ['var(--font-heading)', 'Playfair Display', 'Georgia', 'serif'],
-        sans: ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],
-      },
-      borderRadius: {
-        sm: '10px',
-        md: '14px',
-        lg: '22px',
-        pill: '9999px',
-      },
-      boxShadow: {
-        card: '0 2px 12px rgba(0,0,0,0.06)',
-        'card-hover': '0 8px 32px rgba(0,0,0,0.12)',
-        'hero': '0 4px 24px rgba(0,180,176,0.15)',
+        display: ['var(--font-display)', 'Limelight', 'Georgia', 'serif'],
+        serif: ['var(--font-accent)', 'Bodoni Moda', 'Georgia', 'serif'],
+        sans: ['var(--font-body)', 'Josefin Sans', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #00B4B0, #1D4F7C)',
-        'gradient-romantic': 'linear-gradient(135deg, #F973A2, #e05593)',
-        'gradient-hero': 'linear-gradient(135deg, #0a0a1a 0%, #1D4F7C 100%)',
-        'gradient-ethereal': 'linear-gradient(180deg, #f0f4ff 0%, #e8f0ff 50%, #f5f0ff 100%)',
-      },
-      spacing: {
-        'section': '5rem',
-        'section-sm': '3rem',
+        'gradient-gold': 'linear-gradient(135deg, #8a6a1c 0%, #f3d98b 24%, #c9a13b 48%, #fbe7a1 72%, #9c7a1f 100%)',
       },
     },
   },

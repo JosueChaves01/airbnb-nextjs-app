@@ -2,23 +2,28 @@
 
 import contactData from '@/app/lib/data/contact.json';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { SectionHeading, CornerFrame } from '@/app/components/deco/Ornaments';
+import { Reveal } from '@/app/components/motion/Reveal';
 
 export function Location() {
   const { lang } = useLanguage();
   const { location } = contactData;
 
   return (
-    <section className="location" id="ubicacion" aria-labelledby="location-title">
+    <section className="section section--ink location" id="ubicacion" aria-labelledby="location-title">
       <div className="container">
-        <h2 className="section-title fade-in" id="location-title">
-          {lang === 'es' ? 'Dónde te alojarás' : 'Where you\'ll stay'}
-        </h2>
+        <SectionHeading
+          id="location-title"
+          numeral="V"
+          eyebrow={lang === 'es' ? 'Ubicación' : 'Location'}
+          title={lang === 'es' ? 'Dónde te alojarás' : 'Where you\'ll stay'}
+        />
 
         <div className="location__layout">
-          <div className="location__info fade-in">
+          <Reveal className="location__info">
             <div className="location__address">
               <span className="location__pin">
-                <i className="fas fa-map-marker-alt"></i>
+                <i className="fas fa-map-marker-alt" aria-hidden="true"></i>
               </span>
               <div>
                 <h3>Pital, San Carlos</h3>
@@ -35,7 +40,7 @@ export function Location() {
             <div className="location__checkinout">
               <div className="checkinout-item">
                 <span className="checkinout-item__icon">
-                  <i className="fas fa-key"></i>
+                  <i className="fas fa-key" aria-hidden="true"></i>
                 </span>
                 <div>
                   <strong>Check-in</strong>
@@ -44,7 +49,7 @@ export function Location() {
               </div>
               <div className="checkinout-item">
                 <span className="checkinout-item__icon">
-                  <i className="fas fa-door-open"></i>
+                  <i className="fas fa-door-open" aria-hidden="true"></i>
                 </span>
                 <div>
                   <strong>Check-out</strong>
@@ -52,20 +57,20 @@ export function Location() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="location__map fade-in">
+          <Reveal className="location__map" delay={0.15}>
+            <CornerFrame className="location__corners" />
             <iframe
               title={lang === 'es' ? 'Mapa de ubicación — Pital, San Carlos' : 'Location map — Pital, San Carlos'}
               src={`https://www.google.com/maps?q=${location.coordinates.lat},${location.coordinates.lng}&z=15&output=embed`}
               width="100%"
               height="420"
-              style={{ border: 0, borderRadius: 'var(--radius-lg)' }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

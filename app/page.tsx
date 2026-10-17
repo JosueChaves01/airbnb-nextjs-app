@@ -9,29 +9,25 @@ import { Discover } from './sections/Discover';
 import { Contact } from './sections/Contact';
 import { Footer } from './sections/Footer';
 import { StickyBooking } from './sections/StickyBooking';
-import { ScrollAnimations } from './components/ScrollAnimations';
+import { ScrollProgress } from './components/motion/ScrollProgress';
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />
-        {/* ethereal-wrapper matches original — shared gradient background for inner sections */}
-        <div className="ethereal-wrapper">
-          <Highlights />
-          <Gallery />
-          <Amenities />
-          <Reviews />
-          <Location />
-          <Discover />
-          <Contact />
-        </div>
+        <Highlights />
+        <Gallery />
+        <Amenities />
+        <Reviews />
+        <Location />
+        <Discover />
+        <Contact />
       </main>
       <Footer />
       <StickyBooking />
-      {/* Replicates original IntersectionObserver fade-in behavior */}
-      <ScrollAnimations />
     </>
   );
 }
